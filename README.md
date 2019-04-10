@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+https://scalac.io/react-redux-jwt-authentication/
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -1,12 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import Navbar from './components/universal/navbar';
+import Homepage from './pages/Homepage';
+import Signin from './pages/Signin';
+import Signout from './pages/Signout';
+import reducers from './reducers';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const createStoreWithMiddleware = applyMiddleware()(createStore);
+const store = createStoreWithMiddleware(reducers);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <div>
+        <Navbar />
+        <Route exact path="/" component={Homepage} />
+        <Route path="/signin" component={Signin} />
+        <Route path="/signout" component={Signout} />
+      </div>
+    </Router>
+  </Provider>,
+  document.querySelector('#root')
+);
