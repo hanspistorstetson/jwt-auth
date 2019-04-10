@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { signInAction } from '../../actions';
 
 class Signin extends Component {
   submit = values => {
-    console.log(values);
+    this.props.signInAction(values, this.props.history);
+  };
+
+  errorMessage = () => {
+    if (this.props.errorMessage) {
+      return <div className="info-red">{this.props.errorMessage}</div>;
+    }
   };
 
   render() {
@@ -19,11 +27,20 @@ class Signin extends Component {
               Sign In
             </button>
           </form>
+          {this.errorMessage()}
         </div>
       </div>
     );
   }
 }
-export default reduxForm({
-  form: 'signin'
-})(Signin);
+
+function mapStateToProps(state) {
+  return { errorMessage: state.auth.error };
+}
+
+const reduxFormSignin = reduxForm({ form: 'signin' })(Signin);
+
+export default connect(
+  mapStateToProps,
+  { signInAction }
+)(reduxFormSignin);
